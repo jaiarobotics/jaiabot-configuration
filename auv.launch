@@ -1,0 +1,24 @@
+#!/usr/bin/env goby_launch
+
+# start the simulator
+[kill=SIGTERM] goby_basic_frontseat_simulator $(config/auv.pb.cfg.py frontseat_sim)
+
+
+# start the Goby processes
+gobyd <(config/auv.pb.cfg.py gobyd)
+goby3_course_ctd_simulator <(config/auv.pb.cfg.py goby3_course_ctd_simulator) -vvv -n
+goby_frontseat_interface_basic_simulator <(config/auv.pb.cfg.py goby_frontseat_interface_basic_simulator)
+goby_liaison <(config/auv.pb.cfg.py goby_liaison)
+goby3_course_auv_manager <(config/auv.pb.cfg.py goby3_course_auv_manager) -v -n
+goby3_course_ctd_driver <(config/auv.pb.cfg.py goby3_course_ctd_driver) -vvv -n
+[env=LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/goby3-course/build/lib,env=GOBY_MOOS_GATEWAY_PLUGINS=libgoby3_course_moos_gateway_plugin.so] goby_moos_gateway <(config/auv.pb.cfg.py goby_moos_gateway) -vv
+
+# start the MOOS-IvP alpha mission
+[kill=SIGTERM] config/moos_gen.sh auv
+[kill=SIGTERM] MOOSDB /tmp/auv${goby3_course_auv_index}.moos
+[kill=SIGTERM] pHelmIvP /tmp/auv${goby3_course_auv_index}.moos
+#[kill=SIGTERM] pMarineViewer /tmp/auv${goby3_course_auv_index}.moos
+[kill=SIGTERM] uProcessWatch /tmp/auv${goby3_course_auv_index}.moos
+[kill=SIGTERM] pNodeReporter /tmp/auv${goby3_course_auv_index}.moos
+[kill=SIGTERM] pShare /tmp/auv${goby3_course_auv_index}.moos -o="NODE_REPORT_LOCAL->NODE_REPORT:multicast_0"
+

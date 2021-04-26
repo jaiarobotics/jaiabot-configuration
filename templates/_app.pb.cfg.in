@@ -1,0 +1,22 @@
+app {
+  name: "$app"
+  glog_config {
+      tty_verbosity: $tty_verbosity
+      file_log {
+          file_dir: "$log_file_dir"
+          verbosity: $log_file_verbosity
+      }
+  }
+
+  simulation {  
+    time {
+     use_sim_time: true 
+       warp_factor: $warp # must match MOOSTimeWarp
+       reference_microtime: 0 # must be zero to act the same as MOOSTimeWarp
+    }
+  }
+  geodesy {
+    lat_origin: $lat_origin
+    lon_origin: $lon_origin
+  }
+}
