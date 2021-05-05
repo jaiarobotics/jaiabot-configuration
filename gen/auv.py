@@ -5,7 +5,7 @@
 
 import sys
 import os
-from goby import config
+from common import config
 import common, common.origin, common.vehicle, common.comms, common.sim
 
 try:

@@ -5,7 +5,7 @@
 
 import sys
 import os
-from goby import config
+from common import config
 import common, common.origin, common.topside, common.comms, common.sim
 
 log_file_dir = common.jaia_log_dir+ '/topside'
