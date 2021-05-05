@@ -8,7 +8,6 @@ ServerPort   = $moos_port
 Community    = $moos_community
 MOOSTimeWarp = $warp // must match app { simulation { time { warp_factor }} }
 
-// Buzzard's Bay
 // must match app { geodesy { } } values
 LatOrigin  = $lat_origin
 LongOrigin = $lon_origin

@@ -10,6 +10,7 @@ import common, common.origin, common.topside, common.comms, common.sim
 
 log_file_dir = common.jaia_log_dir+ '/topside'
 os.makedirs(log_file_dir, exist_ok=True)
+debug_log_file_dir=log_file_dir 
 
 vehicle_id = 0 
 wifi_modem_id = common.comms.wifi_modem_id(vehicle_id)
@@ -17,14 +18,11 @@ vehicle_type= 'TOPSIDE'
 
 templates_dir=common.jaia_templates_dir
 
-app_common = config.template_substitute(templates_dir+'/_app.pb.cfg.in',
-                                        app=common.app,
-                                        tty_verbosity = 'QUIET',
-                                        log_file_dir = log_file_dir,
-                                        log_file_verbosity = 'QUIET',
-                                        warp=common.sim.warp,
-                                        lat_origin=common.origin.lat(),
-                                        lon_origin=common.origin.lon())
+verbosities = \
+{ 'gobyd':                  { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_opencpn_interface': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }}
+}
+app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
 
 interprocess_common = config.template_substitute(templates_dir+'/_interprocess.pb.cfg.in',
                                                  platform='topside')
@@ -45,5 +43,10 @@ elif common.app == 'goby_opencpn_interface':
     print(config.template_substitute(templates_dir+'/topside/goby_opencpn_interface.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
+elif common.app == 'goby_liaison':
+    print(config.template_substitute(templates_dir+'/goby_liaison.pb.cfg.in',
+                              app_block=app_common,
+                              interprocess_block = interprocess_common,
+                              http_port=30000+vehicle_id))
 else:
     sys.exit('App: {} not defined'.format(common.app))

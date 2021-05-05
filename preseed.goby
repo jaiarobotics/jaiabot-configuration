@@ -8,4 +8,4 @@ export jaia_max_number_vehicles=128
 export jaia_n_auvs=$jaia_max_number_vehicles
 export jaia_mode=simulation
 
-[ -z "${jaia_vehicle_id}" ] && export jaia_vehicle_id=1
+[ -z "${jaia_auv_index}" ] && export jaia_auv_index=0

@@ -19,20 +19,19 @@ except:
     config.fail('Must set jaia_auv_index environmental variable, e.g. "jaia_n_auvs=10 jaia_auv_index=0 ./auv.launch"')
 
 log_file_dir = common.jaia_log_dir+ '/auv/' + str(auv_index)
+debug_log_file_dir=log_file_dir 
 os.makedirs(log_file_dir, exist_ok=True)
 templates_dir=common.jaia_templates_dir
 
 vehicle_id=auv_index+common.comms.topside_vehicle_id+1
 wifi_modem_id = common.comms.wifi_modem_id(vehicle_id)
+verbosities = \
+{ 'gobyd':                                    { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_logger':                              { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_frontseat_interface_basic_simulator': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }}
+}
 
-app_common = config.template_substitute(templates_dir+'/_app.pb.cfg.in',
-                                 app=common.app,
-                                 tty_verbosity = 'QUIET',
-                                 log_file_dir = log_file_dir,
-                                 log_file_verbosity = 'QUIET',
-                                 warp=common.sim.warp,
-                                 lat_origin=common.origin.lat(),
-                                 lon_origin=common.origin.lon())
+app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
 
 interprocess_common = config.template_substitute(templates_dir+'/_interprocess.pb.cfg.in',
                                                  platform='auv'+str(auv_index))
@@ -56,11 +55,25 @@ elif common.app == 'goby_logger':
 elif common.app == 'goby_frontseat_interface_basic_simulator':
     print(config.template_substitute(templates_dir+'/auv/frontseat.pb.cfg.in',
                                      moos_port=common.vehicle.moos_port(vehicle_id),
-                                     app_block=app_common,
+                                     app_block=common.app_block(verbosities,
+                                                                debug_log_file_dir,
+                                                                geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
                                      interprocess_block = interprocess_common,
                                      sim_start_lat = common.origin.lat(),
                                      sim_start_lon = common.origin.lon(),
                                      sim_port = common.vehicle.simulator_port(vehicle_id)))
+elif common.app == 'goby_liaison':
+    print(config.template_substitute(templates_dir+'/goby_liaison.pb.cfg.in',
+                              app_block=app_common,
+                              interprocess_block = interprocess_common,
+                              http_port=30000+vehicle_id))
+elif common.app == 'goby_moos_gateway':
+    print(config.template_substitute(templates_dir+'/auv/goby_moos_gateway.pb.cfg.in',
+                                     app_block=common.app_block(verbosities,
+                                                                debug_log_file_dir,
+                                                                geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
+                                     interprocess_block = interprocess_common,
+                                     moos_port=common.vehicle.moos_port(vehicle_id)))
 elif common.app == 'moos':
     print(config.template_substitute(templates_dir+'/auv/auv.moos.in',
                                      moos_port=common.vehicle.moos_port(vehicle_id),
@@ -68,7 +81,7 @@ elif common.app == 'moos':
                                      warp=common.sim.warp,
                                      lat_origin=common.origin.lat(),
                                      lon_origin=common.origin.lon(),
-                                     bhv_file='/tmp/auv' + str(auv_index) + '.bhv'))
+                                     bhv_file='/tmp/jaiabot_' + str(auv_index) + '.bhv'))
 elif common.app == 'bhv':
     print(config.template_substitute(templates_dir+'/auv/auv.bhv.in'))
     
