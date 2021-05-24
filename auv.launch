@@ -9,6 +9,7 @@ goby_liaison <(gen/auv.py goby_liaison)
 jaiabot_simulator <(gen/auv.py jaiabot_simulator)
 jaiabot_fusion <(gen/auv.py jaiabot_fusion)
 goby_gps <(gen/auv.py goby_gps)
+goby_logger <(gen/auv.py goby_logger)
 
 # vehicle MOOS components
 [kill=SIGTERM] gen/moos_gen.sh
