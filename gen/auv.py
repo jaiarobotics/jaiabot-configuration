@@ -28,7 +28,10 @@ wifi_modem_id = common.comms.wifi_modem_id(vehicle_id)
 verbosities = \
 { 'gobyd':                                    { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_logger':                              { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
-  'goby_frontseat_interface_basic_simulator': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }}
+  'goby_frontseat_interface_basic_simulator': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'jaiabot_simulator':                        { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
+  'jaiabot_fusion':                        { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
+  'goby_gps':                                 { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }}
 }
 
 app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
@@ -74,6 +77,26 @@ elif common.app == 'goby_moos_gateway':
                                                                 geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
                                      interprocess_block = interprocess_common,
                                      moos_port=common.vehicle.moos_port(vehicle_id)))
+elif common.app == 'jaiabot_simulator':
+    print(config.template_substitute(templates_dir+'/auv/jaiabot_simulator.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common,
+                                     moos_port=common.vehicle.moos_simulator_port(vehicle_id),
+                                     gpsd_simulator_udp_port=common.vehicle.gpsd_simulator_udp_port(vehicle_id)))
+elif common.app == 'jaiabot_fusion':
+    print(config.template_substitute(templates_dir+'/auv/jaiabot_fusion.pb.cfg.in',
+                                     app_block=common.app_block(verbosities,
+                                                                debug_log_file_dir,
+                                                                geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
+                                     interprocess_block = interprocess_common))
+elif common.app == 'goby_gps':
+    print(config.template_substitute(templates_dir+'/auv/goby_gps.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common,
+                                     gpsd_port=common.vehicle.gpsd_port(vehicle_id),
+                                     gpsd_device=common.vehicle.gpsd_device(vehicle_id)))
+elif common.app == 'gpsd':
+    print('-S {} -N {}'.format(common.vehicle.gpsd_port(vehicle_id), common.vehicle.gpsd_device(vehicle_id)))
 elif common.app == 'moos':
     print(config.template_substitute(templates_dir+'/auv/auv.moos.in',
                                      moos_port=common.vehicle.moos_port(vehicle_id),
@@ -83,8 +106,14 @@ elif common.app == 'moos':
                                      lon_origin=common.origin.lon(),
                                      bhv_file='/tmp/jaiabot_' + str(auv_index) + '.bhv'))
 elif common.app == 'bhv':
-    print(config.template_substitute(templates_dir+'/auv/auv.bhv.in'))
-    
+    print(config.template_substitute(templates_dir+'/auv/auv.bhv.in'))    
+elif common.app == 'moos_sim':
+    print(config.template_substitute(templates_dir+'/auv/auv-sim.moos.in',
+                                     moos_port=common.vehicle.moos_simulator_port(vehicle_id),
+                                     moos_community='SIM' + str(auv_index),
+                                     warp=common.sim.warp,
+                                     lat_origin=common.origin.lat(),
+                                     lon_origin=common.origin.lon()))
 elif common.app == 'frontseat_sim':
     print(common.vehicle.simulator_port(vehicle_id))
 else:
