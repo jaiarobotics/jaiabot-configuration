@@ -1,4 +1,4 @@
-export jaia_log_dir=/tmp/jaia-logs
+export jaia_log_dir=$HOME/jaia-logs
 
 export goby3_lib_dir=$(realpath "$(dirname $(which gobyd))/../lib")
 export jaia_lib_dir=$(realpath "$(dirname $(which jaiabot_single_thread_pattern))/../lib")
@@ -6,6 +6,6 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${goby3_lib_dir}:${jaia_lib_dir}
 
 export jaia_max_number_vehicles=128
 export jaia_n_auvs=$jaia_max_number_vehicles
-export jaia_mode=simulation
 
+[ -z "${jaia_mode}" ] && export jaia_mode=simulation
 [ -z "${jaia_auv_index}" ] && export jaia_auv_index=0

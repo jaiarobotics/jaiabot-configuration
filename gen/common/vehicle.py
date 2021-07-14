@@ -13,8 +13,12 @@ def gpsd_device(vehicle_id):
     if is_simulation():
         return "udp://127.0.0.1:" + str(gpsd_simulator_udp_port(vehicle_id))
     else:
-        return "/dev/ttyUSB0"
-
+        # vehicle id to port mapping
+        ports = {
+            1: '/dev/ttyAMA1'
+        }
+        return ports.get(vehicle_id, '/dev/null')
+    
 def gpsd_simulator_udp_port(vehicle_id):
     return 32000 + vehicle_id
 

@@ -1,0 +1,6 @@
+#!/usr/bin/env -S goby_launch -L -P
+
+gobyd <(gen/topside.py gobyd)
+goby_gps <(gen/topside.py goby_gps)
+goby_logger <(gen/topside.py goby_logger)
+jaiabot_lora_test --src 1 --dest 2 -vvv -n --serial 'port: "/dev/ttyACM0" baud: 115200' --transmit
