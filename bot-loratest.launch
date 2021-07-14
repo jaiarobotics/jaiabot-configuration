@@ -3,4 +3,4 @@
 gobyd <(gen/auv.py gobyd)
 goby_gps <(gen/auv.py goby_gps)
 goby_logger <(gen/auv.py goby_logger)
-jaiabot_lora_test --src 2 --dest 1 -vvv -n --serial 'port: "/dev/ttyACM0" baud: 115200' --transmit
+jaiabot_lora_test --src 2 --dest 1 -vvv -n --serial 'port: "/dev/ttyACM0" baud: 115200' --transmit --interprocess 'platform: "auv0"'
