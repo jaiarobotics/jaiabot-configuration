@@ -15,10 +15,10 @@ def gpsd_device(vehicle_id):
     else:
         # vehicle id to port mapping
         ports = {
-            1: '/dev/ttyAMA1'
+            1: '/dev/ttyAMA2'
         }
         return ports.get(vehicle_id, '/dev/null')
-    
+
 def gpsd_simulator_udp_port(vehicle_id):
     return 32000 + vehicle_id
 
