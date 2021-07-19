@@ -2,5 +2,5 @@
 
 gobyd <(gen/auv.py gobyd)
 goby_logger <(gen/auv.py goby_logger)
-bar30_publisher -vvv -n --interprocess 'platform: "auv0"' --input_file_path ~/jaiabot/bar30/bar30.txt
+bar30_publisher -vvv -n --interprocess 'platform: "auv0"' --input_file_path '/tmp/bar30.txt'
 bar30_subscriber -vvv -n --interprocess 'platform: "auv0"'
