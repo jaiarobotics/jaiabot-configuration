@@ -84,8 +84,12 @@ elif common.app == 'jaiabot_simulator':
                                      interprocess_block = interprocess_common,
                                      moos_port=common.vehicle.moos_simulator_port(vehicle_id),
                                      gpsd_simulator_udp_port=common.vehicle.gpsd_simulator_udp_port(vehicle_id)))
-elif common.app == 'bar30_publisher':
-    print(config.template_substitute(templates_dir+'/auv/bar30_publisher.pb.cfg.in',
+elif common.app == 'bar30-driver':
+    print(config.template_substitute(templates_dir+'/auv/bar30-driver.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common))
+elif common.app == 'adafruit-BNO055-driver':
+    print(config.template_substitute(templates_dir+'/auv/adafruit-BNO055-driver.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
 elif common.app == 'jaiabot_fusion':

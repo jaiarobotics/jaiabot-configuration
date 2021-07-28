@@ -1,6 +1,0 @@
-#!/usr/bin/env -S goby_launch -L -P
-
-gobyd <(gen/auv.py gobyd)
-goby_logger <(gen/auv.py goby_logger)
-bar30_publisher <(gen/auv.py bar30_publisher)
-bar30_subscriber -vvv -n --interprocess 'platform: "auv0"'
