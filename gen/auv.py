@@ -92,6 +92,14 @@ elif common.app == 'adafruit-BNO055-driver':
     print(config.template_substitute(templates_dir+'/auv/adafruit-BNO055-driver.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
+elif common.app == 'atlas-scientific-ezo-ec-driver':
+    print(config.template_substitute(templates_dir+'/auv/atlas-scientific-ezo-ec-driver.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common))
+elif common.app == 'salinity-subscriber':
+    print(config.template_substitute(templates_dir+'/auv/salinity-subscriber.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common))
 elif common.app == 'jaiabot_fusion':
     print(config.template_substitute(templates_dir+'/auv/jaiabot_fusion.pb.cfg.in',
                                      app_block=common.app_block(verbosities,
