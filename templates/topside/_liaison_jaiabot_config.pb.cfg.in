@@ -1,0 +1,6 @@
+[jaiabot.protobuf.jaiabot_config] {
+    load_vehicle: 0
+    motor_bounds { min: 0 max: 100 n_ticks: 10}
+    elevator_bounds { min: -100 max: 100 n_ticks: 10}
+    rudder_bounds { min: -100 max: 100 n_ticks: 10}
+}

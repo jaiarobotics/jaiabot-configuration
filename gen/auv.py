@@ -67,9 +67,10 @@ elif common.app == 'goby_frontseat_interface_basic_simulator':
                                      sim_port = common.vehicle.simulator_port(vehicle_id)))
 elif common.app == 'goby_liaison':
     print(config.template_substitute(templates_dir+'/goby_liaison.pb.cfg.in',
-                              app_block=app_common,
-                              interprocess_block = interprocess_common,
-                              http_port=30000+vehicle_id))
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common,
+                                     http_port=30000+vehicle_id,
+                                     jaiabot_config=''))
 elif common.app == 'goby_moos_gateway':
     print(config.template_substitute(templates_dir+'/auv/goby_moos_gateway.pb.cfg.in',
                                      app_block=common.app_block(verbosities,
