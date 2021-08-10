@@ -21,8 +21,11 @@ templates_dir=common.jaia_templates_dir
 verbosities = \
 { 'gobyd':                  { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_opencpn_interface': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
-  'goby_liaison':           { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }}
+  'goby_liaison':           { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_logger':                              { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_gps':                                 { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }}
 }
+
 app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
 
 interprocess_common = config.template_substitute(templates_dir+'/_interprocess.pb.cfg.in',
@@ -52,5 +55,16 @@ elif common.app == 'goby_liaison':
                                      interprocess_block = interprocess_common,
                                      http_port=30000+vehicle_id,
                                      jaiabot_config=liaison_jaiabot_config))
+elif common.app == 'goby_gps':
+    print(config.template_substitute(templates_dir+'/goby_gps.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common,
+                                     gpsd_port=common.topside.gpsd_port(vehicle_id),
+                                     gpsd_device=common.topside.gpsd_device(vehicle_id)))   
+elif common.app == 'goby_logger':    
+    print(config.template_substitute(templates_dir+'/goby_logger.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common,
+                                     goby_logger_dir=log_file_dir))
 else:
     sys.exit('App: {} not defined'.format(common.app))
