@@ -1,4 +1,4 @@
-#!/usr/bin/env -S goby_launch -L -P
+#!/usr/bin/env -S goby_launch -L -P -d100
 
 [kill=SIGTERM] gpsd $(gen/auv.py gpsd)
 
@@ -10,6 +10,7 @@ jaiabot_simulator <(gen/auv.py jaiabot_simulator)
 jaiabot_fusion <(gen/auv.py jaiabot_fusion)
 goby_gps <(gen/auv.py goby_gps)
 goby_logger <(gen/auv.py goby_logger)
+[kill=SIGTERM] socat system:jaiabot_lora_sim,pty,rawer pty,link=/tmp/lora_bot${jaia_auv_index},rawer,echo=0
 
 # vehicle MOOS components
 [kill=SIGTERM] gen/moos_gen.sh

@@ -3,3 +3,5 @@
 gobyd <(gen/topside.py gobyd)
 goby_liaison <(gen/topside.py goby_liaison)
 goby_opencpn_interface <(gen/topside.py goby_opencpn_interface)
+[kill=SIGTERM] RH_etherSimulator.pl
+[kill=SIGTERM] socat system:jaiabot_lora_sim,pty,rawer pty,link=/tmp/lora_box,rawer,echo=0

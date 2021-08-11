@@ -60,6 +60,7 @@ ProcessConfig = pMarinePID
   AppTick    = 20
   CommsTick  = 20
 
+  active_start = true
   verbose       = true
   depth_control = true
 
