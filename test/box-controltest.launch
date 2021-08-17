@@ -4,6 +4,6 @@ gobyd <(../gen/topside.py gobyd)
 goby_gps <(../gen/topside.py goby_gps)
 goby_logger <(../gen/topside.py goby_logger)
 
-socat pty,link=/tmp/ttyxbee0,raw,echo=0 pty,link=/tmp/ttyxbee1,raw,echo=0
-jaiabot_control_surfaces_test -vvvv --mode BOX --serial 'port: "/tmp/ttyxbee1" baud: 9600' --interprocess 'platform: "topside"'
+#socat pty,link=/tmp/ttyxbee0,raw,echo=0 pty,link=/tmp/ttyxbee1,raw,echo=0
+jaiabot_control_surfaces_test -vvvv --mode BOX --serial 'port: "/dev/ttyUSB0" baud: 9600' --interprocess 'platform: "topside"'
 goby_liaison_jaiabot <(../gen/topside.py goby_liaison)
