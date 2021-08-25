@@ -3,16 +3,16 @@
 [kill=SIGTERM] gpsd $(gen/auv.py gpsd)
 
 # start the Goby processes
-gobyd <(gen/auv.py gobyd)
-[env=GOBY_MOOS_GATEWAY_PLUGINS=libgoby_ivp_frontseat_moos_gateway_plugin.so] goby_moos_gateway <(gen/auv.py goby_moos_gateway) -vv
-goby_liaison <(gen/auv.py goby_liaison)
-jaiabot_simulator <(gen/auv.py jaiabot_simulator)
-jaiabot_fusion <(gen/auv.py jaiabot_fusion)
-goby_gps <(gen/auv.py goby_gps)
-goby_logger <(gen/auv.py goby_logger)
+gobyd <(../../gen/auv.py gobyd)
+[env=GOBY_MOOS_GATEWAY_PLUGINS=libgoby_ivp_frontseat_moos_gateway_plugin.so] goby_moos_gateway <(../../gen/auv.py goby_moos_gateway) -vv
+goby_liaison <(../../gen/auv.py goby_liaison)
+jaiabot_simulator <(../../gen/auv.py jaiabot_simulator)
+jaiabot_fusion <(../../gen/auv.py jaiabot_fusion)
+goby_gps <(../../gen/auv.py goby_gps)
+goby_logger <(../../gen/auv.py goby_logger)
 
 # vehicle MOOS components
-[kill=SIGTERM] gen/moos_gen.sh
+[kill=SIGTERM] ../../gen/moos_gen.sh
 [kill=SIGTERM] MOOSDB /tmp/jaiabot_${jaia_auv_index}.moos
 [kill=SIGTERM] pHelmIvP /tmp/jaiabot_${jaia_auv_index}.moos
 [kill=SIGTERM] pMarineViewer /tmp/jaiabot_${jaia_auv_index}.moos
