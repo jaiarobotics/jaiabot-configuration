@@ -7,3 +7,5 @@ load_shared_library: "libjaiabot_messages.so.1"
 
 pb_commander_config {
 }
+
+$jaiabot_config

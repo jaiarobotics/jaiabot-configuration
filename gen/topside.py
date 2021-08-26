@@ -21,8 +21,9 @@ templates_dir=common.jaia_templates_dir
 verbosities = \
 { 'gobyd':                  { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_opencpn_interface': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
-  'goby_logger':                              { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
-  'goby_gps':                                 { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }}
+  'goby_liaison':           { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_logger':            { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
+  'goby_gps':               { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
 }
 
 app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
@@ -36,6 +37,8 @@ link_wifi_block = config.template_substitute(templates_dir+'/_link_wifi.pb.cfg.i
                                                   modem_id=wifi_modem_id,
                                                   mac_slots=common.comms.wifi_mac_slots(vehicle_id))
 
+liaison_jaiabot_config = config.template_substitute(templates_dir+'/topside/_liaison_jaiabot_config.pb.cfg.in')
+
 
 if common.app == 'gobyd':    
     print(config.template_substitute(templates_dir+'/gobyd.pb.cfg.in',
@@ -48,9 +51,10 @@ elif common.app == 'goby_opencpn_interface':
                                      interprocess_block = interprocess_common))
 elif common.app == 'goby_liaison':
     print(config.template_substitute(templates_dir+'/goby_liaison.pb.cfg.in',
-                              app_block=app_common,
-                              interprocess_block = interprocess_common,
-                              http_port=30000+vehicle_id))
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common,
+                                     http_port=30000+vehicle_id,
+                                     jaiabot_config=liaison_jaiabot_config))
 elif common.app == 'goby_gps':
     print(config.template_substitute(templates_dir+'/goby_gps.pb.cfg.in',
                                      app_block=app_common,

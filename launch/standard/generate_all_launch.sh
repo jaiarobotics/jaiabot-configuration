@@ -5,7 +5,7 @@ warp=5
 
 script_dir=$(dirname $0)
 launchfile=${script_dir}/all.launch
-warpfile=${script_dir}/gen/common/sim.py
+warpfile=${script_dir}/../../gen/common/sim.py
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "Usage: generate_all_launch.sh [n_auvs, default ${n_auvs}] [warp, default ${warp}]"

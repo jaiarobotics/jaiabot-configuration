@@ -1,5 +1,0 @@
-#!/usr/bin/env goby_launch
-
-gobyd <(gen/topside.py gobyd)
-goby_liaison <(gen/topside.py goby_liaison)
-goby_opencpn_interface <(gen/topside.py goby_opencpn_interface)
