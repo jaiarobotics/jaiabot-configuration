@@ -90,7 +90,7 @@ elif common.app == 'jaiabot_fusion':
                                                                 geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
                                      interprocess_block = interprocess_common))
 elif common.app == 'goby_gps':
-    print(config.template_substitute(templates_dir+'/auv/goby_gps.pb.cfg.in',
+    print(config.template_substitute(templates_dir+'/goby_gps.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      gpsd_port=common.vehicle.gpsd_port(vehicle_id),
