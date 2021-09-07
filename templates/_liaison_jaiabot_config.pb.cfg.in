@@ -1,4 +1,5 @@
 [jaiabot.protobuf.jaiabot_config] {
+    mode: $mode
     load_vehicle: 0
     motor_bounds { min: -100 max: 100 n_ticks: 10 step: 5 min_label: 'CCW' max_label: 'CW' }
     elevator_bounds { min: -100 max: 100 n_ticks: 10 step: 5 min_label: 'DN' max_label: 'UP' }

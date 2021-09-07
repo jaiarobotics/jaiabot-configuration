@@ -1,11 +1,11 @@
 #!/usr/bin/env -S goby_launch -L -P
 
-[kill=SIGTERM] gpsd $(gen/auv.py gpsd)
+[kill=SIGTERM] gpsd $(../../gen/auv.py gpsd)
 
 # start the Goby processes
 gobyd <(../../gen/auv.py gobyd)
 [env=GOBY_MOOS_GATEWAY_PLUGINS=libgoby_ivp_frontseat_moos_gateway_plugin.so] goby_moos_gateway <(../../gen/auv.py goby_moos_gateway) -vv
-goby_liaison <(../../gen/auv.py goby_liaison)
+goby_liaison_jaiabot <(../../gen/auv.py goby_liaison)
 jaiabot_simulator <(../../gen/auv.py jaiabot_simulator)
 jaiabot_fusion <(../../gen/auv.py jaiabot_fusion)
 goby_gps <(../../gen/auv.py goby_gps)

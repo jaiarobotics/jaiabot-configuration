@@ -37,7 +37,7 @@ link_wifi_block = config.template_substitute(templates_dir+'/_link_wifi.pb.cfg.i
                                                   modem_id=wifi_modem_id,
                                                   mac_slots=common.comms.wifi_mac_slots(vehicle_id))
 
-liaison_jaiabot_config = config.template_substitute(templates_dir+'/topside/_liaison_jaiabot_config.pb.cfg.in')
+liaison_jaiabot_config = config.template_substitute(templates_dir+'/_liaison_jaiabot_config.pb.cfg.in', mode='HUB')
 
 
 if common.app == 'gobyd':    
