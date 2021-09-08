@@ -3,6 +3,6 @@ $interprocess_block
 
 udp_config { 
     bind_port: 0
-    remote_address: "127.0.0.1"
-    remote_port: 6667
+    remote_address: "jaiabot0"
+    remote_port: 7777
 }

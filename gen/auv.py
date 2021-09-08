@@ -30,7 +30,7 @@ verbosities = \
   'goby_logger':                              { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_frontseat_interface_basic_simulator': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'jaiabot_simulator':                        { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
-  'bar30_publisher':                          { 'runtime': { 'tty': 'DEBUG2', 'log': 'DEBUG2' },  'simulation': { 'tty': 'DEBUG2', 'log': 'DEBUG2' }},
+  'jaiabot_bar30_publisher':                          { 'runtime': { 'tty': 'DEBUG2', 'log': 'DEBUG2' },  'simulation': { 'tty': 'DEBUG2', 'log': 'DEBUG2' }},
   'jaiabot_fusion':                        { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
   'goby_gps':                                 { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG2' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }}
 }
@@ -88,16 +88,16 @@ elif common.app == 'jaiabot_simulator':
                                      interprocess_block = interprocess_common,
                                      moos_port=common.vehicle.moos_simulator_port(vehicle_id),
                                      gpsd_simulator_udp_port=common.vehicle.gpsd_simulator_udp_port(vehicle_id)))
-elif common.app == 'bar30-driver':
-    print(config.template_substitute(templates_dir+'/auv/bar30-driver.pb.cfg.in',
+elif common.app == 'jaiabot_bar30-driver':
+    print(config.template_substitute(templates_dir+'/auv/jaiabot_bar30-driver.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
-elif common.app == 'adafruit-BNO055-driver':
-    print(config.template_substitute(templates_dir+'/auv/adafruit-BNO055-driver.pb.cfg.in',
+elif common.app == 'jaiabot_adafruit-BNO055-driver':
+    print(config.template_substitute(templates_dir+'/auv/jaiabot_adafruit-BNO055-driver.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
-elif common.app == 'atlas-scientific-ezo-ec-driver':
-    print(config.template_substitute(templates_dir+'/auv/atlas-scientific-ezo-ec-driver.pb.cfg.in',
+elif common.app == 'jaiabot_atlas-scientific-ezo-ec-driver':
+    print(config.template_substitute(templates_dir+'/auv/jaiabot_atlas-scientific-ezo-ec-driver.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
 elif common.app == 'salinity-subscriber':
