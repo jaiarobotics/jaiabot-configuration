@@ -13,6 +13,8 @@ jaiabot_bar30-driver <(../../gen/auv.py jaiabot_bar30-driver)
 ~/jaiabot/src/bin/drivers/adafruit-BNO055/python/imu.py 20000
 jaiabot_adafruit-BNO055-driver <(../../gen/auv.py jaiabot_adafruit-BNO055-driver)
 jaiabot_fusion <(../../gen/auv.py jaiabot_fusion)
+jaiabot_pid_control -vvv --interprocess 'platform: "auv0"' --app "glog_config { file_log { file_dir: \"${HOME}/jaia-logs/auv\" verbosity: DEBUG1 }}"
+
 
 # liaison on the bot allows you to log into it directly should you desire
 goby_liaison_jaiabot <(../../gen/auv.py goby_liaison)
