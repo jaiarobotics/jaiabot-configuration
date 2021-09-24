@@ -4,13 +4,14 @@ gobyd <(../../gen/auv.py gobyd)
 goby_gps <(../../gen/auv.py goby_gps)
 goby_logger <(../../gen/auv.py goby_logger)
 
+~/jaiabot/src/python/atlas-scientific-ezo-ec/as-ezo-ec.py 20002
+~/jaiabot/src/python/bar30/bar30.py 20001
+~/jaiabot/src/python/adafruit-BNO055/imu.py 20000
+
 jaiabot_dev_bot -vv --mode BOT --serial 'port: "/dev/ttyUSB0" baud: 9600' --interprocess 'platform: "auv0"' --app "glog_config { file_log { file_dir: \"${HOME}/jaia-logs/auv\" verbosity: DEBUG1 }}"
 jaiabot_control_surfaces_driver -vvvv --serial 'port: "/dev/ttyACM0" baud: 9600' --interprocess 'platform: "auv0"'
-~/jaiabot/src/bin/drivers/atlas-scientific-ezo-ec/python/as-ezo-ec.py 20002
 jaiabot_atlas-scientific-ezo-ec-driver <(../../gen/auv.py jaiabot_atlas-scientific-ezo-ec-driver)
-~/jaiabot/src/bin/drivers/bar30/python/bar30.py 20001
 jaiabot_bar30-driver <(../../gen/auv.py jaiabot_bar30-driver)
-~/jaiabot/src/bin/drivers/adafruit-BNO055/python/imu.py 20000
 jaiabot_adafruit-BNO055-driver <(../../gen/auv.py jaiabot_adafruit-BNO055-driver)
 jaiabot_fusion <(../../gen/auv.py jaiabot_fusion)
 jaiabot_pid_control -vvv --interprocess 'platform: "auv0"' --app "glog_config { file_log { file_dir: \"${HOME}/jaia-logs/auv\" verbosity: DEBUG1 }}"
