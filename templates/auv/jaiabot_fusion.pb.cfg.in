@@ -1,2 +1,4 @@
 $app_block
 $interprocess_block
+
+bot_id: $bot_id

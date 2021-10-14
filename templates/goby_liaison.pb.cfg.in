@@ -6,6 +6,7 @@ http_port: $http_port
 load_shared_library: "libjaiabot_messages.so.1"
 
 pb_commander_config {
+    $load_protobufs
 }
 
 $jaiabot_config

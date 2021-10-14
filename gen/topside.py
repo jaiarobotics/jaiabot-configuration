@@ -18,6 +18,8 @@ vehicle_type= 'TOPSIDE'
 
 templates_dir=common.jaia_templates_dir
 
+liaison_load_block = config.template_substitute(templates_dir+'/topside/_liaison_load.pb.cfg.in')
+
 verbosities = \
 { 'gobyd':                  { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_opencpn_interface': { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
@@ -54,7 +56,8 @@ elif common.app == 'goby_liaison':
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      http_port=30000+vehicle_id,
-                                     jaiabot_config=liaison_jaiabot_config))
+                                     jaiabot_config=liaison_jaiabot_config,
+                                     load_protobufs=liaison_load_block))
 elif common.app == 'goby_gps':
     print(config.template_substitute(templates_dir+'/goby_gps.pb.cfg.in',
                                      app_block=app_common,
