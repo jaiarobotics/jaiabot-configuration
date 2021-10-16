@@ -8,13 +8,13 @@ goby_logger <(../../gen/auv.py goby_logger)
 ~/jaiabot/src/python/bar30/bar30.py 20001
 ~/jaiabot/src/python/adafruit-BNO055/imu.py 20000
 
-jaiabot_dev_bot -vv --mode BOT --serial 'port: "/dev/ttyUSB0" baud: 9600' --interprocess 'platform: "auv0"' --app "glog_config { file_log { file_dir: \"${HOME}/jaia-logs/auv\" verbosity: DEBUG1 }}"
-jaiabot_control_surfaces_driver -vvvv --serial 'port: "/dev/ttyACM0" baud: 9600' --interprocess 'platform: "auv0"'
+jaiabot_dev_bot <(../../gen/auv.py jaiabot_dev_bot)
+jaiabot_control_surfaces_driver <(../../gen/auv.py jaiabot_control_surfaces_driver)
 jaiabot_atlas-scientific-ezo-ec-driver <(../../gen/auv.py jaiabot_atlas-scientific-ezo-ec-driver)
 jaiabot_bar30-driver <(../../gen/auv.py jaiabot_bar30-driver)
 jaiabot_adafruit-BNO055-driver <(../../gen/auv.py jaiabot_adafruit-BNO055-driver)
 jaiabot_fusion <(../../gen/auv.py jaiabot_fusion)
-jaiabot_pid_control -vvv --interprocess 'platform: "auv0"' --app "glog_config { file_log { file_dir: \"${HOME}/jaia-logs/auv\" verbosity: DEBUG1 }}"
+jaiabot_pid_control <(../../gen/auv.py jaiabot_pid_control) -vvv
 
 
 # liaison on the bot allows you to log into it directly should you desire
