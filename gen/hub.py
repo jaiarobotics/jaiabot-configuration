@@ -8,6 +8,11 @@ import os
 from common import config
 import common, common.origin, common.hub, common.comms, common.sim
 
+try:
+    number_of_bots=int(os.environ['jaia_n_bots'])
+except:
+    config.fail('Must set jaia_n_bots environmental variable, e.g. "jaia_n_bots=10 jaia_bot_index=0 ./bot.launch"')
+
 log_file_dir = common.jaia_log_dir+ '/hub'
 os.makedirs(log_file_dir, exist_ok=True)
 debug_log_file_dir=log_file_dir 
@@ -69,5 +74,10 @@ elif common.app == 'goby_logger':
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      goby_logger_dir=log_file_dir))
+elif common.app == 'jaiabot_hub_manager':    
+    all_bot_ids='managed_bot_id: ' + str(list(range(0, number_of_bots)))
+    print(config.template_substitute(templates_dir+'/hub/jaiabot_hub_manager.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common, managed_bot_ids=all_bot_ids))
 else:
     sys.exit('App: {} not defined'.format(common.app))
