@@ -6,7 +6,7 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.hub, common.comms, common.sim
+import common, common.origin, common.hub, common.comms, common.sim, common.vehicle
 
 try:
     number_of_bots=int(os.environ['jaia_n_bots'])
@@ -31,6 +31,7 @@ verbosities = \
   'goby_liaison':           { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_logger':            { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_gps':               { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
+  'jaiabot_hub_manager':     { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'QUIET', 'log': 'DEBUG2' }},
 }
 
 app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
@@ -74,8 +75,10 @@ elif common.app == 'goby_logger':
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      goby_logger_dir=log_file_dir))
-elif common.app == 'jaiabot_hub_manager':    
-    all_bot_ids='managed_bot_id: ' + str(list(range(0, number_of_bots)))
+elif common.app == 'jaiabot_hub_manager':
+    start_modem_id=common.comms.wifi_modem_id(common.vehicle.bot_index_to_vehicle_id(0))
+    end_modem_id=common.comms.wifi_modem_id(common.vehicle.bot_index_to_vehicle_id(number_of_bots))
+    all_bot_ids='managed_bot_modem_id: ' + str(list(range(start_modem_id, end_modem_id)))
     print(config.template_substitute(templates_dir+'/hub/jaiabot_hub_manager.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common, managed_bot_ids=all_bot_ids))
