@@ -7,15 +7,8 @@
     }
     external_data {
       name: "goby.middleware.protobuf.Route"
-      group: "jaiabot::opencpn_route"
+      group: "goby::middleware::opencpn::route"
       translate { from: "point" to: "plan.goal" }
       }
   } 
 
-  load_protobuf {  #  (repeated)
-    name: "goby.middleware.protobuf.Route"  #  (required)
-    publish_to {
-      group: "jaiabot::opencpn_route" 
-      layer: LAYER_INTERPROCESS
-    }
-  } 

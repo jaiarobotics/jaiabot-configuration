@@ -9,8 +9,8 @@ def base_modem_id(vehicle_id):
 def wifi_modem_id(vehicle_id):
     return base_modem_id(vehicle_id) + subnet_index['wifi']*num_modems_in_subnet
 
-# first id is topside id
-topside_vehicle_id=0
+# first id is hub id
+hub_vehicle_id=0
 
 def wifi_mac_slots(vehicle_id):
     slots = 'slot { src: ' + str(wifi_modem_id(vehicle_id)) + ' slot_seconds: 1 max_frame_bytes: 128 }\n'

@@ -6,19 +6,19 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.topside, common.comms, common.sim
+import common, common.origin, common.hub, common.comms, common.sim
 
-log_file_dir = common.jaia_log_dir+ '/topside'
+log_file_dir = common.jaia_log_dir+ '/hub'
 os.makedirs(log_file_dir, exist_ok=True)
 debug_log_file_dir=log_file_dir 
 
 vehicle_id = 0 
 wifi_modem_id = common.comms.wifi_modem_id(vehicle_id)
-vehicle_type= 'TOPSIDE'
+vehicle_type= 'HUB'
 
 templates_dir=common.jaia_templates_dir
 
-liaison_load_block = config.template_substitute(templates_dir+'/topside/_liaison_load.pb.cfg.in')
+liaison_load_block = config.template_substitute(templates_dir+'/hub/_liaison_load.pb.cfg.in')
 
 verbosities = \
 { 'gobyd':                  { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
@@ -31,7 +31,7 @@ verbosities = \
 app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
 
 interprocess_common = config.template_substitute(templates_dir+'/_interprocess.pb.cfg.in',
-                                                 platform='topside')
+                                                 platform='hub')
 
 
 link_wifi_block = config.template_substitute(templates_dir+'/_link_wifi.pb.cfg.in',
@@ -48,7 +48,7 @@ if common.app == 'gobyd':
                                      interprocess_block = interprocess_common,
                                      link_block=link_wifi_block))
 elif common.app == 'goby_opencpn_interface':
-    print(config.template_substitute(templates_dir+'/topside/goby_opencpn_interface.pb.cfg.in',
+    print(config.template_substitute(templates_dir+'/hub/goby_opencpn_interface.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common))
 elif common.app == 'goby_liaison':
@@ -62,8 +62,8 @@ elif common.app == 'goby_gps':
     print(config.template_substitute(templates_dir+'/goby_gps.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
-                                     gpsd_port=common.topside.gpsd_port(vehicle_id),
-                                     gpsd_device=common.topside.gpsd_device(vehicle_id)))   
+                                     gpsd_port=common.hub.gpsd_port(vehicle_id),
+                                     gpsd_device=common.hub.gpsd_device(vehicle_id)))   
 elif common.app == 'goby_logger':    
     print(config.template_substitute(templates_dir+'/goby_logger.pb.cfg.in',
                                      app_block=app_common,

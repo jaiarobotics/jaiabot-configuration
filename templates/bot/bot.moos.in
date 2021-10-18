@@ -129,7 +129,7 @@ ProcessConfig = pNodeReporter
   AppTick        = 10
   CommsTick	 = 10
   
-  platform_type   = auv
+  platform_type   = bot
   platform_color  = yellow
   platform_length = 2
 }

@@ -13,9 +13,9 @@ check_args()
 app=sys.argv[1]
 
 try:
-    jaia_n_auvs=int(os.environ['jaia_n_auvs'])
+    jaia_n_bots=int(os.environ['jaia_n_bots'])
 except:    
-    config.fail('Must set jaia_n_auvs environmental variable.')
+    config.fail('Must set jaia_n_bots environmental variable.')
 
 try:
     jaia_log_dir=os.environ['jaia_log_dir']
