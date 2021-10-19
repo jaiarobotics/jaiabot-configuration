@@ -2,10 +2,12 @@ link {
     modem_id: $modem_id
     subnet_mask: $subnet_mask
     driver {
-        driver_type: DRIVER_UDP_MULTICAST
-        [goby.acomms.udp_multicast.protobuf.config] {  
-            multicast_address: "239.142.0.2"
-            multicast_port: 54501
+        driver_type: DRIVER_UDP
+        [goby.acomms.udp.protobuf.config] { 
+            local {                   
+                port: $local_port
+            }
+            $remotes
             max_frame_size: 1400
         }
     }

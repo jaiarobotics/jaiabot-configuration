@@ -6,7 +6,7 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.vehicle, common.comms, common.sim
+import common, common.origin, common.vehicle, common.comms, common.sim, common.udp
 
 try:
     number_of_bots=int(os.environ['jaia_n_bots'])
@@ -24,7 +24,7 @@ os.makedirs(log_file_dir, exist_ok=True)
 templates_dir=common.jaia_templates_dir
 
 vehicle_id=common.vehicle.bot_index_to_vehicle_id(bot_index)
-wifi_modem_id = common.comms.wifi_modem_id(vehicle_id)
+
 verbosities = \
 { 'gobyd':                                    { 'runtime': { 'tty': 'WARN', 'log': 'DEBUG1' }, 'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_logger':                              { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
@@ -42,9 +42,12 @@ interprocess_common = config.template_substitute(templates_dir+'/_interprocess.p
                                                  platform='bot'+str(bot_index))
 
 link_wifi_block = config.template_substitute(templates_dir+'/_link_wifi.pb.cfg.in',
-                                               subnet_mask=common.comms.subnet_mask,
-                                               modem_id=wifi_modem_id,
-                                               mac_slots=common.comms.wifi_mac_slots(vehicle_id))
+                                             subnet_mask=common.comms.subnet_mask,                                            
+                                             modem_id=common.comms.wifi_modem_id(vehicle_id),
+                                             local_port=common.udp.wifi_udp_port(vehicle_id),
+                                             remotes=common.comms.wifi_remotes(vehicle_id, number_of_bots),
+                                             mac_slots=common.comms.wifi_mac_slots(vehicle_id))
+                                        
 link_block=link_wifi_block
 
 liaison_jaiabot_config = config.template_substitute(templates_dir+'/_liaison_jaiabot_config.pb.cfg.in', mode='BOT')

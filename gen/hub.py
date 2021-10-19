@@ -6,7 +6,7 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.hub, common.comms, common.sim, common.vehicle
+import common, common.origin, common.hub, common.comms, common.sim, common.vehicle, common.udp
 
 try:
     number_of_bots=int(os.environ['jaia_n_bots'])
@@ -41,9 +41,11 @@ interprocess_common = config.template_substitute(templates_dir+'/_interprocess.p
 
 
 link_wifi_block = config.template_substitute(templates_dir+'/_link_wifi.pb.cfg.in',
-                                                  subnet_mask=common.comms.subnet_mask,
-                                                  modem_id=wifi_modem_id,
-                                                  mac_slots=common.comms.wifi_mac_slots(vehicle_id))
+                                             subnet_mask=common.comms.subnet_mask,                                            
+                                             modem_id=common.comms.wifi_modem_id(vehicle_id),
+                                             local_port=common.udp.wifi_udp_port(vehicle_id),
+                                             remotes=common.comms.wifi_remotes(vehicle_id, number_of_bots),
+                                             mac_slots=common.comms.wifi_mac_slots(vehicle_id))
 
 liaison_jaiabot_config = config.template_substitute(templates_dir+'/_liaison_jaiabot_config.pb.cfg.in', mode='HUB')
 
