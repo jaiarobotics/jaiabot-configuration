@@ -116,7 +116,8 @@ elif common.app == 'jaiabot_fusion':
 elif common.app == 'jaiabot_mission_manager':
     print(config.template_substitute(templates_dir+'/bot/jaiabot_mission_manager.pb.cfg.in',
                                      app_block=app_common,
-                                     interprocess_block = interprocess_common))
+                                     interprocess_block = interprocess_common,
+                                     bot_id=bot_index))
 elif common.app == 'goby_gps':
     print(config.template_substitute(templates_dir+'/goby_gps.pb.cfg.in',
                                      app_block=app_common,
