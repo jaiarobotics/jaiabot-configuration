@@ -67,4 +67,6 @@ elif common.app == 'goby_logger':
                                      interprocess_block = interprocess_common,
                                      goby_logger_dir=log_file_dir))
 else:
-    sys.exit('App: {} not defined'.format(common.app))
+    print(config.template_substitute(templates_dir+f'/topside/{common.app}.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common))

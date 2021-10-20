@@ -88,22 +88,6 @@ elif common.app == 'jaiabot_simulator':
                                      interprocess_block = interprocess_common,
                                      moos_port=common.vehicle.moos_simulator_port(vehicle_id),
                                      gpsd_simulator_udp_port=common.vehicle.gpsd_simulator_udp_port(vehicle_id)))
-elif common.app == 'jaiabot_bar30-driver':
-    print(config.template_substitute(templates_dir+'/auv/jaiabot_bar30-driver.pb.cfg.in',
-                                     app_block=app_common,
-                                     interprocess_block = interprocess_common))
-elif common.app == 'jaiabot_adafruit-BNO055-driver':
-    print(config.template_substitute(templates_dir+'/auv/jaiabot_adafruit-BNO055-driver.pb.cfg.in',
-                                     app_block=app_common,
-                                     interprocess_block = interprocess_common))
-elif common.app == 'jaiabot_atlas-scientific-ezo-ec-driver':
-    print(config.template_substitute(templates_dir+'/auv/jaiabot_atlas-scientific-ezo-ec-driver.pb.cfg.in',
-                                     app_block=app_common,
-                                     interprocess_block = interprocess_common))
-elif common.app == 'salinity-subscriber':
-    print(config.template_substitute(templates_dir+'/auv/salinity-subscriber.pb.cfg.in',
-                                     app_block=app_common,
-                                     interprocess_block = interprocess_common))
 elif common.app == 'jaiabot_fusion':
     print(config.template_substitute(templates_dir+'/auv/jaiabot_fusion.pb.cfg.in',
                                      app_block=common.app_block(verbosities,
