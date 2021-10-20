@@ -6,7 +6,7 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.hub, common.comms, common.sim, common.vehicle, common.udp
+import common, common.hub, common.comms, common.sim, common.vehicle, common.udp
 
 try:
     number_of_bots=int(os.environ['jaia_n_bots'])

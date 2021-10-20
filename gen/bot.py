@@ -6,7 +6,7 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.vehicle, common.comms, common.sim, common.udp
+import common, common.vehicle, common.comms, common.sim, common.udp
 
 try:
     number_of_bots=int(os.environ['jaia_n_bots'])
@@ -63,16 +63,6 @@ elif common.app == 'goby_logger':
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      goby_logger_dir=log_file_dir))
-elif common.app == 'goby_frontseat_interface_basic_simulator':
-    print(config.template_substitute(templates_dir+'/bot/frontseat.pb.cfg.in',
-                                     moos_port=common.vehicle.moos_port(vehicle_id),
-                                     app_block=common.app_block(verbosities,
-                                                                debug_log_file_dir,
-                                                                geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
-                                     interprocess_block = interprocess_common,
-                                     sim_start_lat = common.origin.lat(),
-                                     sim_start_lon = common.origin.lon(),
-                                     sim_port = common.vehicle.simulator_port(vehicle_id)))
 elif common.app == 'goby_liaison':
     print(config.template_substitute(templates_dir+'/goby_liaison.pb.cfg.in',
                                      app_block=app_common,
@@ -82,9 +72,7 @@ elif common.app == 'goby_liaison':
                                      load_protobufs=''))
 elif common.app == 'goby_moos_gateway':
     print(config.template_substitute(templates_dir+'/bot/goby_moos_gateway.pb.cfg.in',
-                                     app_block=common.app_block(verbosities,
-                                                                debug_log_file_dir,
-                                                                geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
+                                     app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      moos_port=common.vehicle.moos_port(vehicle_id)))
 elif common.app == 'jaiabot_simulator':
@@ -111,9 +99,7 @@ elif common.app == 'salinity-subscriber':
                                      interprocess_block = interprocess_common))
 elif common.app == 'jaiabot_fusion':
     print(config.template_substitute(templates_dir+'/bot/jaiabot_fusion.pb.cfg.in',
-                                     app_block=common.app_block(verbosities,
-                                                                debug_log_file_dir,
-                                                                geodesy='geodesy { lat_origin: ' + str(common.origin.lat()) + ' lon_origin: ' + str(common.origin.lon()) + '}'),
+                                     app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      bot_id=bot_index))
 elif common.app == 'jaiabot_mission_manager':
@@ -133,9 +119,7 @@ elif common.app == 'moos':
     print(config.template_substitute(templates_dir+'/bot/bot.moos.in',
                                      moos_port=common.vehicle.moos_port(vehicle_id),
                                      moos_community='BOT' + str(bot_index),
-                                     warp=common.sim.warp,
-                                     lat_origin=common.origin.lat(),
-                                     lon_origin=common.origin.lon(),
+                                     warp=common.sim.warp,                                
                                      bhv_file='/tmp/jaiabot_' + str(bot_index) + '.bhv'))
 elif common.app == 'bhv':
     print(config.template_substitute(templates_dir+'/bot/bot.bhv.in'))    
@@ -143,9 +127,12 @@ elif common.app == 'moos_sim':
     print(config.template_substitute(templates_dir+'/bot/bot-sim.moos.in',
                                      moos_port=common.vehicle.moos_simulator_port(vehicle_id),
                                      moos_community='SIM' + str(bot_index),
-                                     warp=common.sim.warp,
-                                     lat_origin=common.origin.lat(),
-                                     lon_origin=common.origin.lon()))
+                                     warp=common.sim.warp))
+elif common.app == 'moos_pmv':
+    print(config.template_substitute(templates_dir+'/bot/marineviewer.moos.in',
+                                     moos_port=common.vehicle.moos_port(vehicle_id),
+                                     moos_community='BOT' + str(bot_index),
+                                     warp=common.sim.warp))
 elif common.app == 'frontseat_sim':
     print(common.vehicle.simulator_port(vehicle_id))
 else:
