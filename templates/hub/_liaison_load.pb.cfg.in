@@ -10,5 +10,10 @@
       group: "goby::middleware::opencpn::route"
       translate { from: "point" to: "plan.goal" }
       }
+    external_data {
+      name: "goby.middleware.protobuf.Waypoint"
+      group: "goby::middleware::opencpn::waypoint"
+      translate { from: "location" to: "plan.recovery.location" }
+      }
   } 
 

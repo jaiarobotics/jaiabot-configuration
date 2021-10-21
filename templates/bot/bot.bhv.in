@@ -1,14 +1,16 @@
 initialize   MOOS_MANUAL_OVERRIDE = false
-initialize   JAIA_MISSION_STATE = PRE_DEPLOYMENT__OFF
+initialize   JAIABOT_WAYPOINT_ACTIVE = false
+initialize   JAIABOT_STATIONKEEP_ACTIVE = false
 
 Behavior = BHV_Waypoint
 { 
-  name      = jaia_movement_transit
+  name      = jaia_transit
   pwt       = 100
-  condition = JAIA_MISSION_STATE = UNDERWAY__MOVEMENT__TRANSIT
-
-  updates    = JAIA_MOVEMENT_TRANSIT_UPDATES
-  endflag    = JAIA_MOVEMENT_TRANSIT_COMPLETE = true
+  condition = JAIABOT_WAYPOINT_ACTIVE = true
+  updates   = JAIABOT_TRANSIT_UPDATES
+  
+  endflag   = JAIABOT_TRANSIT_COMPLETE = true
+  endflag   = JAIABOT_WAYPOINT_ACTIVE = false
   
   lead = 8
   lead_damper = 1
@@ -24,16 +26,34 @@ Behavior = BHV_Waypoint
   // point = ...
 }
 
+Behavior = BHV_StationKeep
+{
+   name         = jaiabot_stationkeep
+   pwt          = 100                   // default
+   condition    = JAIABOT_STATIONKEEP_ACTIVE = true
+   updates      = JAIABOT_STATIONKEEP_UPDATES
+
+   center_activate = false   // default
+   hibernation_radius = -1      // default
+   inner_radius = 4       // default
+   outer_radius = 15      // default
+   swing_time = 0       // default
+
+   // set by updates
+   // outer_speed  = ...
+   // transit_speed  = ...
+   // station_pt =  ...           
+}
 
 
- Behavior = BHV_ConstantDepth
- {
-   name         = jaia_fixed_depth
-   pwt          = 100
 
-   basewidth = 100          // default
-   depth = 0            // default
-   duration = no-time-limit
-   peakwidth = 3            // default
-   summitdelta = 50           // default
- }
+Behavior = BHV_ConstantDepth
+{
+  name         = jaia_fixed_depth
+  pwt          = 100
+  basewidth = 100          // default
+  depth = 0            // default
+  duration = no-time-limit
+  peakwidth = 3            // default
+  summitdelta = 50           // default
+}
