@@ -9,7 +9,7 @@ goby_logger <(../../gen/auv.py goby_logger)
 ~/jaiabot/src/python/adafruit-BNO055/imu.py 20000
 
 jaiabot_dev_bot <(../../gen/auv.py jaiabot_dev_bot)
-jaiabot_control_surfaces_driver <(../../gen/auv.py jaiabot_control_surfaces_driver)
+#jaiabot_control_surfaces_driver <(../../gen/auv.py jaiabot_control_surfaces_driver)
 jaiabot_atlas-scientific-ezo-ec-driver <(../../gen/auv.py jaiabot_atlas-scientific-ezo-ec-driver)
 jaiabot_bar30-driver <(../../gen/auv.py jaiabot_bar30-driver)
 jaiabot_adafruit-BNO055-driver <(../../gen/auv.py jaiabot_adafruit-BNO055-driver)
