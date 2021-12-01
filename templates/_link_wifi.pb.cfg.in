@@ -10,6 +10,6 @@ link {
     }
     mac { 
         type: MAC_FIXED_DECENTRALIZED 
-        slot { src: 1 type: DATA slot_seconds: 1 }
+        slot { src: $modem_id type: DATA slot_seconds: 1 }
     }
 }
