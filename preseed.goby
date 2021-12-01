@@ -7,5 +7,7 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${goby3_lib_dir}:${jaia_lib_dir}
 export jaia_max_number_vehicles=128
 export jaia_n_bots=$jaia_max_number_vehicles
 
+export GOBY_MODEMDRIVER_PLUGINS=libxbee.so
+
 [ -z "${jaia_mode}" ] && export jaia_mode=runtime
 [ -z "${jaia_bot_index}" ] && export jaia_bot_index=0

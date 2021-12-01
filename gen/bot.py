@@ -140,4 +140,6 @@ elif common.app == 'moos_sim':
 elif common.app == 'frontseat_sim':
     print(common.vehicle.simulator_port(vehicle_id))
 else:
-    sys.exit('App: {} not defined'.format(common.app))
+    print(config.template_substitute(templates_dir+f'/auv/{common.app}.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common))
