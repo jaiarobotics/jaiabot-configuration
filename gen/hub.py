@@ -6,7 +6,12 @@
 import sys
 import os
 from common import config
-import common, common.origin, common.hub, common.comms, common.sim
+import common, common.hub, common.comms, common.sim, common.vehicle, common.udp
+
+try:
+    number_of_bots=int(os.environ['jaia_n_bots'])
+except:
+    config.fail('Must set jaia_n_bots environmental variable, e.g. "jaia_n_bots=10 jaia_bot_index=0 ./bot.launch"')
 
 log_file_dir = common.jaia_log_dir+ '/hub'
 os.makedirs(log_file_dir, exist_ok=True)
@@ -26,6 +31,7 @@ verbosities = \
   'goby_liaison':           { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_logger':            { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'WARN', 'log': 'QUIET' }},
   'goby_gps':               { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'DEBUG2', 'log': 'QUIET' }},
+  'jaiabot_hub_manager':     { 'runtime': { 'tty': 'WARN', 'log': 'QUIET' },  'simulation': { 'tty': 'QUIET', 'log': 'DEBUG2' }},
 }
 
 app_common = common.app_block(verbosities, debug_log_file_dir, geodesy='')
@@ -35,9 +41,11 @@ interprocess_common = config.template_substitute(templates_dir+'/_interprocess.p
 
 
 link_wifi_block = config.template_substitute(templates_dir+'/_link_wifi.pb.cfg.in',
-                                                  subnet_mask=common.comms.subnet_mask,
-                                                  modem_id=wifi_modem_id,
-                                                  mac_slots=common.comms.wifi_mac_slots(vehicle_id))
+                                             subnet_mask=common.comms.subnet_mask,                                            
+                                             modem_id=common.comms.wifi_modem_id(vehicle_id),
+                                             local_port=common.udp.wifi_udp_port(vehicle_id),
+                                             remotes=common.comms.wifi_remotes(vehicle_id, number_of_bots),
+                                             mac_slots=common.comms.wifi_mac_slots(vehicle_id))
 
 liaison_jaiabot_config = config.template_substitute(templates_dir+'/_liaison_jaiabot_config.pb.cfg.in', mode='HUB')
 
@@ -46,7 +54,8 @@ if common.app == 'gobyd':
     print(config.template_substitute(templates_dir+'/gobyd.pb.cfg.in',
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
-                                     link_block=link_wifi_block))
+                                     link_block=link_wifi_block,
+                                     persist_subscriptions='persist_subscriptions { name: "hub" dir: "' + debug_log_file_dir + '" }'))
 elif common.app == 'goby_opencpn_interface':
     print(config.template_substitute(templates_dir+'/hub/goby_opencpn_interface.pb.cfg.in',
                                      app_block=app_common,
@@ -69,5 +78,12 @@ elif common.app == 'goby_logger':
                                      app_block=app_common,
                                      interprocess_block = interprocess_common,
                                      goby_logger_dir=log_file_dir))
+elif common.app == 'jaiabot_hub_manager':
+    start_modem_id=common.comms.wifi_modem_id(common.vehicle.bot_index_to_vehicle_id(0))
+    end_modem_id=common.comms.wifi_modem_id(common.vehicle.bot_index_to_vehicle_id(number_of_bots))
+    all_bot_ids='managed_bot_modem_id: ' + str(list(range(start_modem_id, end_modem_id)))
+    print(config.template_substitute(templates_dir+'/hub/jaiabot_hub_manager.pb.cfg.in',
+                                     app_block=app_common,
+                                     interprocess_block = interprocess_common, managed_bot_ids=all_bot_ids))
 else:
     sys.exit('App: {} not defined'.format(common.app))

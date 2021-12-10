@@ -1,52 +1,59 @@
 initialize   MOOS_MANUAL_OVERRIDE = false
-initialize   JAIA_AUTONOMY_MODE = polygon
+initialize   JAIABOT_WAYPOINT_ACTIVE = false
+initialize   JAIABOT_STATIONKEEP_ACTIVE = false
 
- Behavior = BHV_Loiter
- {
-   // General Behavior Parameters
-   // ---------------------------
-   name         = jaia_polygon    
-   pwt          = 100
-   condition    = JAIA_AUTONOMY_MODE = polygon
-   updates      = JAIA_POLYGON_UPDATES
-   perpetual    = true
+Behavior = BHV_Waypoint
+{ 
+  name      = jaia_transit
+  pwt       = 100
+  condition = JAIABOT_WAYPOINT_ACTIVE = true
+  updates   = JAIABOT_TRANSIT_UPDATES
+  
+  endflag   = JAIABOT_TRANSIT_COMPLETE = true
+  endflag   = JAIABOT_WAYPOINT_ACTIVE = false
+  
+  lead = 8
+  lead_damper = 1
+  lead_to_start = true
+  capture_line = false
+  capture_radius = 5.0
+  slip_radius = 15.0
+  efficiency_measure = all
+  perpetual = true
+  
+  // set by updates
+  // speed = ...   // meters per second
+  // point = ...
+}
 
-   // Parameters specific to this behavior
-   // ------------------------------------
-        acquire_dist = 10               // default
-      capture_radius = 3                // default  
-     center_activate = false            // default
-           clockwise = true             // default
-         slip_radius = 15               // default
-               speed = 1
-       spiral_factor = -2               // default
+Behavior = BHV_StationKeep
+{
+   name         = jaiabot_stationkeep
+   pwt          = 100                   // default
+   condition    = JAIABOT_STATIONKEEP_ACTIVE = true
+   updates      = JAIABOT_STATIONKEEP_UPDATES
 
-             polygon = radial:: x=100,y=100,radius=50,pts=8  // example
- 
-        visual_hints = vertex_size  = 1             // default
-        visual_hints = edge_size    = 1             // default
-        visual_hints = vertex_color = dodger_blue   // default
-        visual_hints = edge_color   = white         // default
-        visual_hints = nextpt_color = yellow        // default
-        visual_hints = nextpt_lcolor = aqua         // default
-        visual_hints = nextpt_vertex_size = 5       // default
-        visual_hints = label        = zone3         // example
+   center_activate = false   // default
+   hibernation_radius = -1      // default
+   inner_radius = 4       // default
+   outer_radius = 15      // default
+   swing_time = 0       // default
+
+   // set by updates
+   // outer_speed  = ...
+   // transit_speed  = ...
+   // station_pt =  ...           
 }
 
 
 
- Behavior = BHV_ConstantDepth
- {
-   // General Behavior Parameters
-   // ---------------------------
-   name         = jaia_const_depth_surface
-   pwt          = 100
-
-   // Parameters specific to this behavior
-   // ------------------------------------
-            basewidth = 100          // default
-                depth = 0            // default
-             duration = no-time-limit
-            peakwidth = 3            // default
-          summitdelta = 50           // default
- }
+Behavior = BHV_ConstantDepth
+{
+  name         = jaia_fixed_depth
+  pwt          = 100
+  basewidth = 100          // default
+  depth = 0            // default
+  duration = no-time-limit
+  peakwidth = 3            // default
+  summitdelta = 50           // default
+}
